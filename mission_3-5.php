@@ -21,8 +21,6 @@
         
         //送信ボタンを押したときの動作        
         if(isset($_POST['submit']) && !empty($_POST["pass"])){
-            //書き込むモードに変更する
-            $fp = fopen($filename,"w");
             //名前
             $name = $_POST["name"];
             //コメント
@@ -37,21 +35,27 @@
             
             //編集する番号がないとき
             if($edit == ""){
-            //テキストファイルに1行ずつ書き込む
+                //書き込むモードに変更する
+                $fp = fopen($filename,"a");
+                //投稿番号をきめる
                 foreach($lines as $line){
                     if($line == ""){
                     }else{
-                        fwrite($fp,$line.PHP_EOL.PHP_EOL);
-                        $num++;
+                        $info = explode("<>",$line);
+                        $num = $info[0];
                     }
                 }
+                $num++;
                 
                 //テキストファイルに新しい情報を書き込む
                 if($name == "" && $com == ""){
                 }else{
                     fwrite($fp,"$num<>$name<>$com<>$day<>$pass<>".PHP_EOL.PHP_EOL);
                 }
+                
             }else{//編集する番号があるとき
+                //書き込むモードに変更する
+                $fp = fopen($filename,"w");
                 foreach($lines as $line){
                     if($line == ""){
                     }else{
@@ -86,14 +90,12 @@
                         if($pass_de == $info[4]){//指定した番号のパスワードが一致したとき
                         //何もしない    
                         }else{//パスワードが一致しないとき削除しない
-                            fwrite($fp,$num."<>".$info[1]."<>".$info[2]."<>".$info[3]."<>".$info[4]."<>".PHP_EOL.PHP_EOL);
-                            $num++;  
+                            fwrite($fp,$info[0]."<>".$info[1]."<>".$info[2]."<>".$info[3]."<>".$info[4]."<>".PHP_EOL.PHP_EOL);
                             $alert =  "パスワードが違います。";
                             
                         }   
                     }else{//番号が一致しないとき削除しない
-                        fwrite($fp,$num."<>".$info[1]."<>".$info[2]."<>".$info[3]."<>".$info[4]."<>".PHP_EOL.PHP_EOL);
-                        $num++;
+                        fwrite($fp,$info[0]."<>".$info[1]."<>".$info[2]."<>".$info[3]."<>".$info[4]."<>".PHP_EOL.PHP_EOL);
                     }
                 }
             }
@@ -187,9 +189,5 @@
         //テキストファイルをとじる
         fclose($fp);
         ?>
-        
-        <!--入力フォーム-->
-
-        
     </body>
 </html>
