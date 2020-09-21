@@ -7,9 +7,9 @@
     <body>
         <?php
         //データベースの接続
-	    $dsn = 'データベース名';
+	$dsn = 'データベース名';
     	$user = 'ユーザー名';
-	    $password = 'パスワード';
+	$password = 'パスワード';
     	$pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
     	
     	//DELETE文で入力した文を削除する
@@ -36,8 +36,8 @@
     	    //$rowの中にはテーブルのカラム名が入る
     		echo $row['id'].',';
 	    	echo $row['name'].',';
-		    echo $row['comment'].'<br>';
-		    echo '<hr>';
+		echo $row['comment'].'<br>';
+		echo '<hr>';
     	}
     	
         ?>
