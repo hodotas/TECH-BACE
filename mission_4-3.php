@@ -7,9 +7,9 @@
     <body>
         <?php
         //データベースの接続
-	    $dsn = 'データベース名';
+	$dsn = 'データベース名';
     	$user = 'ユーザー名';
-	    $password = 'パスワード';
+	$password = 'パスワード';
     	$pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
     	
     	//データベースのテーブル一覧を表示
