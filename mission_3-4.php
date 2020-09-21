@@ -21,8 +21,7 @@
         
         //送信ボタンを押したときのの動作        
         if(isset($_POST['submit'])){
-            //書き込むモードに変更する
-            $fp = fopen($filename,"w");
+            
             //名前
             $name = $_POST["name"];
             //コメント
@@ -34,14 +33,19 @@
             
             //編集する番号がないとき
             if($edit == ""){
-            //テキストファイルに1行ずつ書き込む
+                //書き込むモードに変更する
+                $fp = fopen($filename,"a");
+                
+                //投稿番号をきめる
                 foreach($lines as $line){
                     if($line == ""){
                     }else{
-                        fwrite($fp,$line.PHP_EOL.PHP_EOL);
-                        $num++;
+                    $info = explode("<>",$line);
+                    $num = $info[0];
                     }
                 }
+                $num++;
+                
                 
                 //テキストファイルに新しい情報を書き込む
                 if($name == "" && $com == ""){
@@ -49,6 +53,8 @@
                     fwrite($fp,"$num<>$name<>$com<>$day".PHP_EOL.PHP_EOL);
                 }
             }else{//編集する番号があるとき
+                //書き込むモードに変更する
+                $fp = fopen($filename,"w");
                 foreach($lines as $line){
                     if($line == ""){
                     }else{
