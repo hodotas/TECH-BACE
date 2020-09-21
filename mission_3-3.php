@@ -27,8 +27,6 @@
             $com = $_POST["com"];
             //日付
             $day = date("Y/n/j G:i:s");
-            //削除した番号
-            $d_num = $_POST["delete"];
             
             //投稿番号をきめる
             foreach($lines as $line){
@@ -37,11 +35,6 @@
                 $info = explode("<>",$line);
                 $num = $info[0];
                 }
-            }
-            if($num == $d_num - 1){
-                $num = $num + 2;
-            }else{
-                $num++;
             }
             
             //テキストファイルに新しい情報を書き込む
@@ -79,7 +72,6 @@
             <br>
             <!--コメントの入力-->
             <input type = "text" name = "com" placeholder = "コメント">
-            <input type = "hidden" name = "delete" value = "<?php echo $del_num?>">
             <br>
             <!--送信ボタン-->
             <button type = "submit" name = "submit">送信</button>
