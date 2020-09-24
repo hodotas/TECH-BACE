@@ -5,7 +5,6 @@
         <title>mission3-4</title>
     </head>
     <body>
-        
         <?php
         //---------------------テキストファイルに書き込むパート------------------------------
         //追加・削除・編集する前のテキストファイルを読み込む
@@ -19,7 +18,7 @@
         //投稿番号
         $num = 1;        
         
-        //送信ボタンを押したときのの動作        
+        //送信ボタンを押したときの動作        
         if(isset($_POST['submit'])){
             
             //名前
@@ -86,7 +85,8 @@
                     $info = explode("<>",$line);
                     
                     if($info[0] == $del_num){
-                    //投稿番号$info[0]と削除する番号$del_numが一致したとき書き込まない   
+                        //投稿番号$info[0]と削除する番号$del_numが一致したとき投稿番号のみ書き込む
+                        fwrite($fp,$info[0]."<>".PHP_EOL.PHP_EOL);   
                     }else{//一致しないとき書き込む
                         fwrite($fp,$num."<>".$info[1]."<>".$info[2]."<>".$info[3].PHP_EOL.PHP_EOL);
                         $num++;
@@ -94,8 +94,10 @@
                 }
             }
             
-        //編集ボタンを押したときの動作    
-        }elseif(isset($_POST['edit'])){
+        }
+        
+        //編集ボタンを押したときの動作  
+        elseif(isset($_POST['edit'])){
             //書き込むモードに変更する
             $fp = fopen($filename,"w");
             //編集する番号
@@ -143,27 +145,26 @@
             <input type = "number" name = "num_ed" placeholder = "編集する番号">
             <br>
             <button type = "submit" name = "edit">編集</button>
-            
         </form>
         <?php
+         //------------------------PHPファイルに書き込むパート------------------------------
         if(file_exists($filename)){
             //もう一度、テキストファイルの中身を1列ずつ配列に入れる
             $lines = file($filename,FILE_IGNORE_NEW_LINES);
             foreach($lines as $line){
                 if($line == ""){
                 }else{
-                    //"<>"を外して書き込む
                     $info = explode("<>",$line);
-                    echo $info[0].".名前:".$info[1]." コメント:".$info[2]." 日付:".$info[3]."<br><br>";
-                    
+                    if(!empty($info[1])){
+                        echo $info[0].".名前:".$info[1]." コメント:".$info[2]." 日付:".$info[3]."<br><br>";
+                    }else{
+                        
+                    }
                 }
             }
         }
         //テキストファイルをとじる
         fclose($fp);
         ?>
-        
-        
-        
     </body>
 </html>
