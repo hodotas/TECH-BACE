@@ -88,7 +88,8 @@
                     $info = explode("<>",$line);
                     if($info[0] == $del_num){//投稿番号$info[0]と削除する番号$del_numが一致したとき
                         if($pass_de == $info[4]){//指定した番号のパスワードが一致したとき
-                        //何もしない    
+                            //投稿番号のみ書き込む
+                            fwrite($fp,$info[0]."<>".PHP_EOL.PHP_EOL);    
                         }else{//パスワードが一致しないとき削除しない
                             fwrite($fp,$info[0]."<>".$info[1]."<>".$info[2]."<>".$info[3]."<>".$info[4]."<>".PHP_EOL.PHP_EOL);
                             $alert =  "パスワードが違います。";
@@ -179,15 +180,18 @@
             foreach($lines as $line){
                 if($line == ""){
                 }else{
-                    //"<>"を外して書き込む
                     $info = explode("<>",$line);
-                    echo $info[0].".名前:".$info[1]." コメント:".$info[2]." 日付:".$info[3]."<br><br>";
-                    
+                    if(!empty($info[1])){
+                        echo $info[0].".名前:".$info[1]." コメント:".$info[2]." 日付:".$info[3]."<br><br>";
+                    }else{
+                        
+                    }
                 }
             }
         }
         //テキストファイルをとじる
         fclose($fp);
         ?>
+
     </body>
 </html>
