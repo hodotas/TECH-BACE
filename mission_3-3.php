@@ -4,11 +4,8 @@
         <meta charset = "UTF-8">
         <title>mission3-3</title>
     </head>
-    <body>
-        
-        
+    <body> 
         <?php
-        
         $filename = "mission_3-1.txt";
         $fp = fopen($filename,"r");
         if(file_exists($filename)){//テキストファイルに中身があるとき
@@ -36,9 +33,10 @@
                 $num = $info[0];
                 }
             }
+            $num++;
             
             //テキストファイルに新しい情報を書き込む
-            if($name == "" && $com == ""){
+            if($name == "" || $com == ""){
             }else{
                 fwrite($fp,"$num<>$name<>$com<>$day".PHP_EOL.PHP_EOL);
             }
@@ -56,7 +54,8 @@
                     //投稿番号を分けるために分割するexplode関数
                     $info = explode("<>",$line);
                     if($info[0] == $del_num){
-                    //投稿番号$info[0]と削除する番号$del_numが一致したとき書き込まない   
+                    //投稿番号$info[0]と削除する番号$del_numが一致したとき投稿番号のみ書き込む
+                        fwrite($fp,$info[0]."<>".PHP_EOL.PHP_EOL);
                     }else{//一致しないとき書き込む
                         fwrite($fp,$info[0]."<>".$info[1]."<>".$info[2]."<>".$info[3].PHP_EOL.PHP_EOL);
                     }
@@ -92,7 +91,12 @@
                 if($line == ""){
                 }else{
                     $info = explode("<>",$line);
-                    echo $info[0].".名前:".$info[1]." コメント:".$info[2]." 日付:".$info[3]."<br><br>";
+                    if(!empty($info[1])){
+                        echo $info[0].".名前:".$info[1]." コメント:".$info[2]." 日付:".$info[3]."<br><br>";
+                    }else{
+                        
+                    }
+                    
                     
                 }
             }
