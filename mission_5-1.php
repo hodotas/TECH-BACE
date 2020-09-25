@@ -10,12 +10,9 @@
         //---------------------データベースに書き込むパート------------------------------
         
         //データベースの接続
-    	// ・データベース名：tb220567db
-	    // ・ユーザー名：tb-220567
-    	// ・パスワード：m7hR9UfYP9
-	    $dsn = 'mysql:dbname=tb220567db;host=localhost';
-    	$user = 'tb-220567';
-	    $password = 'm7hR9UfYP9';
+	$dsn = 'データベース名';
+    	$user = 'ユーザー名';
+	$password = 'パスワード';
     	$pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
     	
     	//送信ボタンを押したときの動作
@@ -38,25 +35,25 @@
             	                       ." VALUES (:name,:comment,:password,:date)");
             	//bindParamで変数に値を代入する
     	        $sql -> bindParam(':name' , $name , PDO::PARAM_STR);
-        	    $sql -> bindParam(':comment' , $comment , PDO::PARAM_STR);
+        	$sql -> bindParam(':comment' , $comment , PDO::PARAM_STR);
             	$sql -> bindParam(':password' , $pass , PDO::PARAM_STR);
-        	    $sql -> bindParam(':date' , $date , PDO::PARAM_STR);
+        	$sql -> bindParam(':date' , $date , PDO::PARAM_STR);
         	    //実行し情報を書き込む
     	        $sql -> execute();
             }else{//編集する番号があるとき
                 //UPDATE文で入力した文を編集する
             	$id = $_POST['categoly'];//編集する番号
-        	    //WHRERでidを条件とし、SETで各情報のプレースホルダーを作成する
+        	//WHRERでidを条件とし、SETで各情報のプレースホルダーを作成する
             	$sql = 'UPDATE webtest SET name = :name , comment = :comment , password = :password , date = :date WHERE id = :id';
-        	    //変数に値を代入するのでprepareを使う
+        	//変数に値を代入するのでprepareを使う
             	$stmt = $pdo -> prepare($sql);
-        	    //bindParamで変数に値を代入する
-        	    $stmt -> bindParam(':name' , $name ,PDO::PARAM_STR);
+        	//bindParamで変数に値を代入する
+        	$stmt -> bindParam(':name' , $name ,PDO::PARAM_STR);
             	$stmt -> bindParam(':comment' , $comment ,PDO::PARAM_STR);
             	$stmt -> bindParam(':password' , $password ,PDO::PARAM_STR);
-        	    $stmt -> bindParam(':date' , $date ,PDO::PARAM_STR);
+        	$stmt -> bindParam(':date' , $date ,PDO::PARAM_STR);
             	$stmt -> bindParam(':id' , $id ,PDO::PARAM_STR);
-        	    //executeで実行する
+        	//executeで実行する
     	        $stmt -> execute();   
             }
         }
@@ -64,14 +61,14 @@
         //削除ボタンを押したときの動作
         elseif(isset($_POST['dele']) && !empty($_POST['pass_de'])){
             //DELETE文で入力した文を削除する
-        	$id = $_POST['num_de'];//削除する番号
-        	//WHEREでidを条件とする
+       　　 $id = $_POST['num_de'];//削除する番号
+            //WHEREでidを条件とする
     	    $sql = 'DELETE from webtest WHERE id = :id';
-        	//変数に値を代入するのでprepareを使う
-        	$stmt = $pdo -> prepare($sql);
+            //変数に値を代入するのでprepareを使う
+            $stmt = $pdo -> prepare($sql);
     	    //bindParamで変数に値を代入する
-        	$stmt -> bindParam(':id' , $id ,PDO::PARAM_STR);
-        	//executeで実行する
+            $stmt -> bindParam(':id' , $id ,PDO::PARAM_STR);
+            //executeで実行する
     	    $stmt -> execute();
         }
         
@@ -82,20 +79,20 @@
             //WHEREでidを条件とし、SELECT文で編集する列を選択する
             $sql = 'SELECT * FROM webtest WHERE id = :id';
             //変数に値を代入するのでprepareを使う
-        	$stmt = $pdo -> prepare($sql);
-        	//bindParamで変数に値を代入する
-        	$stmt->bindParam(':id', $id, PDO::PARAM_STR);
-        	//executeで実行する
-        	$stmt -> execute();
-        	//fetchAll()で全てのデータを配列にして返す
+            $stmt = $pdo -> prepare($sql);
+            //bindParamで変数に値を代入する
+            $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+            //executeで実行する
+            $stmt -> execute();
+            //fetchAll()で全てのデータを配列にして返す
     	    $result = $stmt -> fetchAll();
     	    //編集する列の番号と名前とコメントを送信するフォームに入れる
     	    foreach($result as $row){
         	    if($row['password'] == $pass){//パスワードが一致したとき
     	            //変数に情報を代入する
-    		        $edi_num = $row['id'];
+    		    $edi_num = $row['id'];
     	       	    $edi_name = $row['name'];
-	           	    $edi_com = $row['comment'];
+	            $edi_com = $row['comment'];
         	    }else{//一致しないとき何もしない
     	        }
     	    }
@@ -149,11 +146,8 @@
 	    	echo ".名前:".$row['name'];
 	    	echo " 日付:".$row['date'].'<br>';
 	    	echo $row['comment']."<br>";
-		    echo '<hr>';
+		echo '<hr>';
     	}
-        ?>
-        
-        
-        
+        ?>       
     </body>
 </html>
